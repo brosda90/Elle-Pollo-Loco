@@ -1,0 +1,144 @@
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      background-image: url(../img/5_background/desert.png);
+      font-family: 'zabras', Arial, Helvetica, sans-serif;
+
+    }
+
+    .startScreen{
+        width: 720px;
+        height: 480px;
+        border-radius: 10px;
+    }
+
+    h1{
+      font-size: 64px;
+      letter-spacing: 3px;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    }
+
+    canvas{
+        
+    background-color: black;
+    display: block;
+    border-radius: 10px;
+    
+
+  
+  }
+
+  #win-container{
+    display: none;
+    position: relative;
+    top: -300px;
+    width: 300px;
+    z-index: 1000;
+    background-color: white;
+    padding: 20px;
+    text-align: center;
+    justify-content: center;
+    background-color: #f0f8ffa1;
+    border-radius: 15px;
+}
+
+#lose-container{
+  display: none;
+  position: relative;
+  top: -300px;
+  width: 300px;
+  z-index: 1000;
+  background-color: white;
+  padding: 20px;
+  text-align: center;
+  justify-content: center;
+  background-color: #f0f8ffa1;
+  border-radius: 15px;
+}
+
+  #description{
+    display: flex;
+    position: relative;
+    top: -60px;
+    justify-content: center;
+    gap: 20px;
+    flex-direction:row;
+    align-items: center;
+  }
+
+
+  #retryGameButton{
+    position: relative;
+  
+    font-size: 24px;
+    background-color: #FFD210;
+    text-decoration: none;
+    border: 1px solid #9E6956;
+    border-radius: 5px;
+    font-family: 'zabras', Arial, Helvetica, sans-serif;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+
+  #restartGameButton{
+    position: relative;
+  
+    font-size: 24px;
+    background-color: #FFD210;
+    text-decoration: none;
+    border: 1px solid #9E6956;
+    border-radius: 5px;
+    font-family: 'zabras', Arial, Helvetica, sans-serif;
+    padding: 5px 10px;
+    cursor: pointer;
+
+  }
+
+#startGameButton{
+  
+  position: relative;
+  top: -500px;
+  font-size: 24px;
+  background-color: #FFD210;
+  text-decoration: none;
+  border: 1px solid #9E6956;
+  border-radius: 5px;
+  font-family: 'zabras', Arial, Helvetica, sans-serif;
+  padding: 5px 10px;
+  cursor: pointer;
+
+}
+
+.start-container{
+    display: flex;
+    justify-content: center;
+    
+}
+
+    /* smartphone ---------*/
+    @media only screen and (max-width: 720px){
+    canvas{
+      width: 100%;
+    }
+    #title{
+      display: none;
+      position: absolute;
+      top: 0;
+    }
+    }
+
+     /* smartphone ---------*/
+     @media only screen and (max-height: 480px){
+    canvas{
+      height: 100vh;
+      
+    }
+    #title{
+      display: none;
+      position: absolute;
+      top: 0;
+    }
+    }
