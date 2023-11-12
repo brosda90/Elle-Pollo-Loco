@@ -7,30 +7,44 @@ class EndbossHealthbar extends MovableObject {
   isVisible = false;
   hitCount = 0;
 
+  /**
+   * Constructs the health bar for the end boss.
+   */
   constructor() {
     super();
     this.loadImages(this.IMAGES_HealthBar);
-    this.x = 440;
-    this.y = 5;
+    this.x = 450;
+    this.y = -10;
     this.width = 250;
     this.height = 60;
   }
 
+  /**
+   * Updates the health bar based on the number of hits taken.
+   * @param {number} hitCount
+   */
   updateHealthBar(hitCount) {
-    this.isVisible = true; // Healthbar wird sichtbar, wenn diese Methode aufgerufen wird
+    this.isVisible = true;
     this.hitCount = hitCount;
-    let path = this.IMAGES_HealthBar[this.resolveImageIndex()];
+    let path = this.IMAGES_HealthBar[this.resolveImageStatus()];
     this.img = this.imageCache[path];
   }
 
+  /**
+   * Draws the health bar on the canvas context if it is visible.
+   * @param {CanvasRenderingContext2D} ctx
+   */
   draw(ctx) {
     if (this.isVisible) {
-      // Zeichnet die Healthbar nur, wenn sie sichtbar sein soll
       super.draw(ctx);
     }
   }
 
-  resolveImageIndex() {
+  /**
+   * Resolves the index of the image to use for the health bar based on the current hit count.
+   * @returns {number}
+   */
+  resolveImageStatus() {
     if (this.hitCount === 1) {
       return 0;
     } else if (this.hitCount === 2) {

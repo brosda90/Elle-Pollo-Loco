@@ -1,74 +1,72 @@
-let level1 = new Level(
-  [new Chicken(), new Chicken(), new Chicken(), new Endboss()],
+/**
+ * Creates array of background objects.
+ *
+ * @param {string[][]} imageSets - Array of image sets.
+ * @param {number} count - Number of times the image sets repeated.
+ * @returns {BackgroundObject[]} Array of background objects.
+ */
+function createBackgroundObjects(imageSets, count) {
+  const objects = [];
+  const imageWidth = 719; // Nehmen wir an, dass dies die Breite Ihres Hintergrundbildes ist
 
-  [new Cloud(), new Cloud()],
-  [
-    new BackgroundObject("img/5_background/layers/air.png", -719),
-    new BackgroundObject("img/5_background/layers/3_third_layer/2.png", -719),
-    new BackgroundObject("img/5_background/layers/2_second_layer/2.png", -719),
-    new BackgroundObject("img/5_background/layers/1_first_layer/2.png", -719),
+  // Startposition nach links erweitern
+  const startPosition = -imageWidth; // Beginnen Sie ein Bild vor dem Startpunkt
 
-    new BackgroundObject("img/5_background/layers/air.png", 0),
-    new BackgroundObject("img/5_background/layers/3_third_layer/1.png", 0),
-    new BackgroundObject("img/5_background/layers/2_second_layer/1.png", 0),
-    new BackgroundObject("img/5_background/layers/1_first_layer/1.png", 0),
-    new BackgroundObject("img/5_background/layers/air.png", 719),
-    new BackgroundObject("img/5_background/layers/3_third_layer/2.png", 719),
-    new BackgroundObject("img/5_background/layers/2_second_layer/2.png", 719),
-    new BackgroundObject("img/5_background/layers/1_first_layer/2.png", 719),
+  for (let i = 0; i < count; i++) {
+    const position = startPosition + imageWidth * i;
+    const currentSet = imageSets[i % imageSets.length];
+    for (const imagePath of currentSet) {
+      objects.push(new BackgroundObject(imagePath, position));
+    }
+  }
+  return objects;
+}
 
-    new BackgroundObject("img/5_background/layers/air.png", 719 * 2),
-    new BackgroundObject(
+/**
+ * First level of the game.
+ * Sets the background, characters, objects.
+ */
+function initLevel1() {
+  const imageSets = [
+    [
+      "img/5_background/layers/air.png",
+      "img/5_background/layers/3_third_layer/2.png",
+      "img/5_background/layers/2_second_layer/2.png",
+      "img/5_background/layers/1_first_layer/2.png",
+    ],
+    [
+      "img/5_background/layers/air.png",
       "img/5_background/layers/3_third_layer/1.png",
-      719 * 2
-    ),
-    new BackgroundObject(
       "img/5_background/layers/2_second_layer/1.png",
-      719 * 2
-    ),
-    new BackgroundObject(
       "img/5_background/layers/1_first_layer/1.png",
-      719 * 2
-    ),
-    new BackgroundObject("img/5_background/layers/air.png", 719 * 3),
-    new BackgroundObject(
-      "img/5_background/layers/3_third_layer/2.png",
-      719 * 3
-    ),
-    new BackgroundObject(
-      "img/5_background/layers/2_second_layer/2.png",
-      719 * 3
-    ),
-    new BackgroundObject(
-      "img/5_background/layers/1_first_layer/2.png",
-      719 * 3
-    ),
-    new BackgroundObject("img/5_background/layers/air.png", 719 * 4),
-    new BackgroundObject(
-      "img/5_background/layers/3_third_layer/2.png",
-      719 * 4
-    ),
-    new BackgroundObject(
-      "img/5_background/layers/2_second_layer/2.png",
-      719 * 4
-    ),
-    new BackgroundObject(
-      "img/5_background/layers/1_first_layer/2.png",
-      719 * 4
-    ),
-  ],
-  [
-    new Coin(400, 80),
-    new Coin(900, 100),
-    new Coin(1800, 80),
-    new Coin(1900, 80),
-    new Coin(2300, 100),
-  ],
-  [
-    new Bottle(600, 350),
-    new Bottle(1000, 350),
-    new Bottle(1300, 350),
-    new Bottle(1700, 350),
-    new Bottle(2000, 350),
-  ]
-);
+    ],
+  ];
+
+  const backgroundObjects = createBackgroundObjects(imageSets, 6);
+
+  level1 = new Level(
+    [new Chicken(), new Chicken(), new Chicken(), new Endboss()],
+    [new Cloud(), new Cloud()],
+    backgroundObjects,
+    [
+      new Coin(250, 80),
+      new Coin(900, 100),
+      new Coin(1800, 80),
+      new Coin(1900, 80),
+      new Coin(2300, 100),
+    ],
+    [
+      new Bottle(350, 350),
+      new Bottle(400, 350),
+      new Bottle(1300, 350),
+      new Bottle(1700, 350),
+      new Bottle(2000, 350),
+    ],
+    [
+      new BottleCube(600, 85),
+      new BottleCube(1200, 85),
+      new BottleCube(2000, 85),
+      new BottleCube(2200, 85),
+    ]
+  );
+}

@@ -1,51 +1,53 @@
-
-    body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-      background-image: url(../img/5_background/desert.png);
-      font-family: 'zabras', Arial, Helvetica, sans-serif;
-
-    }
-
-    .startScreen{
-        width: 720px;
-        height: 480px;
-        border-radius: 10px;
-    }
-
-    h1{
-      font-size: 64px;
-      letter-spacing: 3px;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
-    }
-
-    canvas{
-        
-    background-color: black;
-    display: block;
-    border-radius: 10px;
-    
-
-  
-  }
-
-  #win-container{
-    display: none;
-    position: relative;
-    top: -300px;
-    width: 300px;
-    z-index: 1000;
-    background-color: white;
-    padding: 20px;
-    text-align: center;
-    justify-content: center;
-    background-color: #f0f8ffa1;
-    border-radius: 15px;
+html {
+  box-sizing: border-box;
 }
 
-#lose-container{
+body {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-image: url(../img/5_background/desert.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  font-family: "zabras", Arial, Helvetica, sans-serif;
+}
+#game-container {
+  width: 720px; /* Maximale Breite */
+  height: 480px; /* Maximale Höhe */
+
+  border-radius: 10px;
+  display: flex; /* Flex-Container, um den Inhalt zu zentrieren */
+
+  align-items: center; /* Zentriert den Inhalt vertikal */
+}
+
+.startScreen {
+  width: 720px;
+  height: 480px;
+  border-radius: 10px;
+}
+
+.startScreen img {
+  width: calc(100vw - 10px);
+}
+
+h1 {
+  font-size: 64px;
+  letter-spacing: 3px;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+canvas {
+  background-color: black;
+  display: block;
+  border-radius: 10px;
+}
+
+#win-container {
   display: none;
   position: relative;
   top: -300px;
@@ -59,86 +61,312 @@
   border-radius: 15px;
 }
 
-  #description{
-    display: flex;
-    position: relative;
-    top: -60px;
-    justify-content: center;
-    gap: 20px;
-    flex-direction:row;
-    align-items: center;
-  }
-
-
-  #retryGameButton{
-    position: relative;
-  
-    font-size: 24px;
-    background-color: #FFD210;
-    text-decoration: none;
-    border: 1px solid #9E6956;
-    border-radius: 5px;
-    font-family: 'zabras', Arial, Helvetica, sans-serif;
-    padding: 5px 10px;
-    cursor: pointer;
-  }
-
-  #restartGameButton{
-    position: relative;
-  
-    font-size: 24px;
-    background-color: #FFD210;
-    text-decoration: none;
-    border: 1px solid #9E6956;
-    border-radius: 5px;
-    font-family: 'zabras', Arial, Helvetica, sans-serif;
-    padding: 5px 10px;
-    cursor: pointer;
-
-  }
-
-#startGameButton{
-  
+#lose-container {
+  display: none;
   position: relative;
-  top: -500px;
+  top: -300px;
+  width: 300px;
+  z-index: 1000;
+  background-color: white;
+  padding: 20px;
+  text-align: center;
+  justify-content: center;
+  background-color: #f0f8ffa1;
+  border-radius: 15px;
+}
+
+#description {
+  display: flex;
+  position: relative;
+  top: -60px;
+  justify-content: center;
+  gap: 20px;
+  flex-direction: row;
+  align-items: center;
+}
+
+#retryGameButton {
+  position: relative;
+
   font-size: 24px;
-  background-color: #FFD210;
+  background-color: #ffd210;
   text-decoration: none;
-  border: 1px solid #9E6956;
+  border: 1px solid #9e6956;
   border-radius: 5px;
-  font-family: 'zabras', Arial, Helvetica, sans-serif;
+  font-family: "zabras", Arial, Helvetica, sans-serif;
   padding: 5px 10px;
   cursor: pointer;
-
 }
 
-.start-container{
-    display: flex;
-    justify-content: center;
-    
+#restartGameButton {
+  position: relative;
+
+  font-size: 24px;
+  background-color: #ffd210;
+  text-decoration: none;
+  border: 1px solid #9e6956;
+  border-radius: 5px;
+  font-family: "zabras", Arial, Helvetica, sans-serif;
+  padding: 5px 10px;
+  cursor: pointer;
 }
 
-    /* smartphone ---------*/
-    @media only screen and (max-width: 720px){
-    canvas{
-      width: 100%;
-    }
-    #title{
-      display: none;
-      position: absolute;
-      top: 0;
-    }
-    }
+#startGameButton {
+  position: relative;
+  top: -450px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: transform 0.1s; /* Animation für den Übergang */
+}
 
-     /* smartphone ---------*/
-     @media only screen and (max-height: 480px){
-    canvas{
-      height: 100vh;
-      
-    }
-    #title{
-      display: none;
-      position: absolute;
-      top: 0;
-    }
-    }
+#startGameButton:active {
+  transform: scale(0.9); /* Verkleinert das Bild, wenn es aktiv ist */
+}
+
+#muteButton {
+  position: relative;
+  width: 48px;
+  top: -149px;
+  right: -324px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: transform 0.1s; /* Animation für den Übergang */
+}
+
+#muteButton:active {
+  transform: scale(0.9); /* Verkleinert das Bild, wenn es aktiv ist */
+}
+
+.start-container {
+  display: flex;
+  justify-content: center;
+}
+
+.controls {
+  position: relative;
+  top: -201px;
+  right: -265px;
+}
+
+.game-info {
+  position: relative;
+  top: -253px;
+  right: -205px;
+}
+
+.game-info img {
+  width: 48px;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.controls img {
+  width: 48px;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.controls img:active {
+  transform: scale(0.9); /* Verkleinert das Bild, wenn es aktiv ist */
+}
+
+.game-info img:active {
+  transform: scale(0.9); /* Verkleinert das Bild, wenn es aktiv ist */
+}
+
+#control-manual {
+  width: 285px;
+  height: 400px;
+  position: relative;
+  background-color: #333333b3;
+  border-radius: 15px;
+  top: -634px;
+  z-index: 100;
+}
+
+#gameInfo {
+  display: none;
+  width: 0;
+  width: 691px;
+  height: 457px;
+  position: relative;
+  background-color: #333333b3;
+  border-radius: 15px;
+  top: -715px;
+  z-index: 100;
+}
+
+.pd-top {
+  padding-top: 60px;
+}
+#pepeInfo {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  left: 19px;
+  top: -44px;
+  color: white;
+  letter-spacing: 2px;
+  align-items: center;
+  width: 653px;
+}
+
+#pepeInfo img {
+  width: 90px;
+}
+
+#enemieInfo {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  left: 29px;
+  top: -49px;
+  color: white;
+  letter-spacing: 2px;
+  align-items: center;
+  width: 642px;
+  gap: 20px;
+}
+
+#enemieInfo img {
+  width: 60px;
+}
+
+#endbossInfo {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  left: 34px;
+  top: -82px;
+  color: white;
+  letter-spacing: 2px;
+  align-items: center;
+  width: 643px;
+}
+
+#endbossInfo img {
+  width: 115px;
+}
+
+#bottleInfo {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  left: 5px;
+  top: -62px;
+  color: white;
+  letter-spacing: 2px;
+  align-items: center;
+  width: 230px;
+  gap: 10px;
+}
+
+#bottleInfo img {
+  width: 60px;
+}
+
+#coinInfo {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  left: 220px;
+  top: -175px;
+  color: white;
+  letter-spacing: 2px;
+  align-items: center;
+  width: 239px;
+}
+
+#coinInfo img {
+  width: 84px;
+}
+
+#statusInfo {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  left: 492px;
+  top: -292px;
+  color: white;
+  letter-spacing: 2px;
+  align-items: center;
+  width: 169px;
+}
+
+#statusInfo img {
+  width: 170px;
+}
+
+.info img {
+  width: 48px;
+}
+
+#closeInfoMenu {
+  position: relative;
+  width: 38px;
+  top: -300px;
+  left: 647px;
+}
+
+.manual {
+  letter-spacing: 3px;
+  display: flex;
+  align-items: center;
+  font-size: 29px;
+  color: white;
+  gap: 20px;
+  padding-top: 22px;
+  padding-left: 17px;
+  z-index: 100;
+}
+
+#touch-controls {
+  display: flex;
+  gap: 45px;
+  margin-top: -55px;
+  z-index: 1000;
+}
+
+#touch-controls img {
+  width: 48px;
+  height: 48 px;
+  transition: transform 0.05s; /* Animation für den Übergang */
+}
+
+#touch-controls img:active {
+  transform: scale(0.9); /* Verkleinert das Bild, wenn es aktiv ist */
+}
+
+/* smartphone ---------*/
+@media only screen and (max-width: 720px) {
+  canvas {
+    width: calc(100vw - 10px);
+  }
+  #title {
+    display: none;
+    position: absolute;
+    top: 0;
+  }
+  #game-container {
+    width: calc(
+      100vw - 10px
+    ); /* 100% der Viewport-Breite, abzüglich der horizontalen Margins */
+  }
+}
+
+/* smartphone ---------*/
+@media only screen and (max-height: 480px) {
+  canvas {
+    height: 100vh;
+  }
+  #title {
+    display: none;
+    position: absolute;
+    top: 0;
+  }
+  #game-container {
+    height: calc(
+      100vh - 5px
+    ); /* 100% der Viewport-Höhe, abzüglich der oberen Margin */
+  }
+}

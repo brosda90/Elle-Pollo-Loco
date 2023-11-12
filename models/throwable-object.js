@@ -3,21 +3,19 @@ class ThrowableObject extends MovableObject {
   initialXSpeed = 20;
   isSplashing = false;
 
-  IMAGES_BOTTLE_ROTATION = [
-    "img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",
-    "img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png",
-    "img/6_salsa_bottle/bottle_rotation/3_bottle_rotation.png",
-    "img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png",
-  ];
+  IMAGES_BOTTLE_ROTATION = this.generateImagePaths(
+    "img/6_salsa_bottle/bottle_rotation",
+    "B",
+    1,
+    4
+  );
 
-  IMAGES_BOTTLE_SPLASH = [
-    "img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png",
-    "img/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png",
-    "img/6_salsa_bottle/bottle_rotation/bottle_splash/3_bottle_splash.png",
-    "img/6_salsa_bottle/bottle_rotation/bottle_splash/4_bottle_splash.png",
-    "img/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png",
-    "img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png",
-  ];
+  IMAGES_BOTTLE_SPLASH = this.generateImagePaths(
+    "img/6_salsa_bottle/bottle_rotation/bottle_splash",
+    "S",
+    1,
+    6
+  );
 
   constructor(x, y, world) {
     super().loadImage(this.IMAGES_BOTTLE_ROTATION[0]);
@@ -39,41 +37,71 @@ class ThrowableObject extends MovableObject {
     this.throw();
   }
 
-  throw() {
-    if (this.world.character.bottleCount >= 20) {
-      this.speedY = 20;
-      this.applyGravity();
-
-      let animationInterval = setInterval(() => {
-        if (this.isSplashing) {
-          return;
-        }
-
-        if (this.y >= 350 && !this.isSplashing) {
-          this.speedY = 10;
-          this.isSplashing = true;
-          this.playAnimation(this.IMAGES_BOTTLE_SPLASH, () => {
-            this.isSplashing = false;
-            clearInterval(animationInterval);
-          });
-        } else if (this.world.checkIfBottleHits() && !this.isSplashing) {
-          this.speedY = 10;
-          this.isSplashing = true;
-          this.playAnimation(this.IMAGES_BOTTLE_SPLASH, () => {
-            this.isSplashing = false;
-            clearInterval(animationInterval);
-          });
-        } else {
-          this.playAnimation(this.IMAGES_BOTTLE_ROTATION);
-        }
-
-        this.x += this.speedX;
-      }, 80);
-
-      this.world.character.bottleCount -= 20;
-      this.world.statusBarBottles.setPercentage(
-        this.world.character.bottleCount
-      );
+  /**
+   * Plays the bottle break sound effect.
+   */
+  playBottleBreakSound() {
+    if (this.isSplashing && !this.hasPlayedBrokeSound) {
+      this.world.playSound("audio/bottle broke.mp3");
+      this.hasPlayedBrokeSound = true;
     }
+  }
+  /**
+   * Initiates the throwing action of the object.
+   */
+  throw() {
+    if (this.world.character.bottleCount < 20) {
+      return; // Not enough bottles to throw
+    }
+
+    this.speedY = 20;
+    this.applyGravity();
+    this.world.playSound("audio/bottlethrow.wav");
+    this.decreaseBottleCount();
+
+    let animationInterval = setInterval(() => {
+      if (!this.isSplashing) {
+        this.handleBottleFlight();
+      }
+
+      if (this.shouldSplash()) {
+        this.startSplashing(animationInterval);
+      }
+    }, 80);
+  }
+  /**
+   * Decreases the bottle count of the character.
+   */
+  decreaseBottleCount() {
+    this.world.character.bottleCount -= 20;
+    this.world.statusBarBottles.setPercentage(this.world.character.bottleCount);
+  }
+  /**
+   * Handles the flight animation of the bottle.
+   */
+  handleBottleFlight() {
+    this.playAnimation(this.IMAGES_BOTTLE_ROTATION);
+    this.x += this.speedX;
+  }
+  /**
+   * Determines if the bottle should splash based on its position.
+   * @returns {boolean}
+   */
+  shouldSplash() {
+    return (
+      (this.y >= 350 || this.world.checkIfBottleHits()) && !this.isSplashing
+    );
+  }
+  /**
+   * Starts the splashing animation and sound, then clears the interval.
+   * @param {number} animationInterval - The interval ID to clear.
+   */
+  startSplashing(animationInterval) {
+    this.speedY = 10;
+    this.isSplashing = true;
+    this.playBottleBreakSound();
+    this.playAnimation(this.IMAGES_BOTTLE_SPLASH, () => {
+      clearInterval(animationInterval);
+    });
   }
 }

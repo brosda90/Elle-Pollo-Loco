@@ -4,22 +4,28 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="img/Icons/favicon-32x32.png"
+    />
+
     <link rel="stylesheet" href="css/style.css" />
     <script src="models/drawable-object.class.js"></script>
     <script src="models/movable-object.class.js"></script>
     <script src="models/background-object.class.js"></script>
-    
+
     <script src="models/status-bar.class.js"></script>
     <script src="models/status-bar-coin.class.js"></script>
-    <script src="models/collect-bottles-status.class.js"></script>
-   
+    <script src="models/status-bar-bottles.class.js"></script>
 
     <script src="models/character.class.js"></script>
     <script src="models/chicken.class.js"></script>
     <script src="models/world.class.js"></script>
     <script src="models/keyboard.claas.js"></script>
-    <script src="models/coin.class.js"></script>
-    <script src="models/bottle.class.js"></script>
+    <script src="models/collectible.class.js"></script>
+    <script src="models/objects.class.js"></script>
     <script src="models/level.class.js"></script>
     <script src="models/cloud.class.js"></script>
 
@@ -30,43 +36,140 @@
     <script src="Levels/level1.js"></script>
 
     <script src="js/game.js"></script>
-<style>
-  @font-face {
-    font-family: 'zabras';
-    src:url('fonts/ZABARS/Zabars.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
-}  
-
-</style>
-   
+    <style>
+      @font-face {
+        font-family: "zabras";
+        src: url("fonts/ZABARS/Zabars.ttf") format("truetype"); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+      }
+    </style>
   </head>
-  
+
   <body>
     <h1 id="title">El Pollo Loco</h1>
 
     <div id="game-container">
-     
-      <img id="startScreen" class="startScreen" src="img/9_intro_outro_screens/start/startscreen_1.png">
-      <canvas id="canvas" width="720" height="480" style="display: none;"></canvas>
-      <div id="description">
-        
-          <h2>Arrow Left/Right = Walk</h2>
-          <h2>Arrow Up = Jump</h2>
-          <h2>Spacebar = Thro Tabasco</h2>
-       
-        </div>
-      </div>
-  
-      <!-- Add the Start Game button -->
-      <button id="startGameButton">Start Game</button>
+      <img
+        id="startScreen"
+        class="startScreen"
+        src="img/9_intro_outro_screens/start/startscreen_1.png"
+      />
+      <canvas
+        id="canvas"
+        width="720"
+        height="480"
+        style="display: none"
+      ></canvas>
     </div>
+    <!-- Touch-Tasten -->
+    <div id="touch-controls" style="display: none">
+      <img id="left-btn" src="img/Icons/left.png" alt="left" />
+      <img id="right-btn" src="img/Icons/right.png" alt="right" />
+      <img id="jump-btn" src="img/Icons/Jump.png" alt="Jump" />
+      <img id="throw-btn" src="img/Icons/throw.png" alt="throw" />
+    </div>
+
+    <!-- Add the Start Game button -->
+    <img id="startGameButton" src="img/Icons/Start game.png" alt="Start" />
+
     <div id="lose-container">
       <h2>You Lose!</h2>
       <button id="retryGameButton">Try Again</button>
-  </div>
-  <div id="win-container">
-    <h2>You Win!</h2>
-    <button id="restartGameButton">Nochmal</button>
-</div>
-   
-</body>
+    </div>
+    <div id="win-container">
+      <h2>You Win!</h2>
+      <button id="restartGameButton">restart</button>
+    </div>
+
+    <!--- Audio --->
+    <audio id="introSound" loop>
+      <source src="audio/Intro Sound.mp3" type="audio/mp3" />
+    </audio>
+    <img id="muteButton" src="img/Icons/playaudio.png" alt="" />
+
+    <audio id="backgroundSound" loop>
+      <source src="audio/background sound.mp3" type="audio/mp3" />
+    </audio>
+
+    <!--- Controller- Manual --->
+    <div class="controls">
+      <img id="open-controller-manual" src="img/Icons/controls.png" alt="" />
+    </div>
+    <div id="control-manual" style="display: none">
+      <div class="manual">
+        <img src="img/Icons/left.png" />
+        <span>Move Left</span>
+      </div>
+      <div class="manual">
+        <img src="img/Icons/right.png" />
+        <span>Move Right</span>
+      </div>
+      <div class="manual">
+        <img src="img/Icons/Jump.png" />
+        <span>Jump</span>
+      </div>
+      <div class="manual">
+        <img src="img/Icons/throw.png" />
+        <span>throw a bottle</span>
+      </div>
+    </div>
+
+    <!--- Game-Info --->
+    <div class="game-info">
+      <img id="open-game-info" src="img/Icons/information.png" alt="" />
+    </div>
+    <div id="gameInfo">
+      <div id="pepeInfo">
+        <img src="img/2_character_pepe/1_idle/idle/I-1.png" />
+        <span class="pd-top"
+          >Meet Pepe, a determined little Mexican adventurer! His mission? To
+          reclaim his desert homeland from the mischievous chickens. Join Pepe
+          on this exciting quest to restore peace and chicken-free tranquility
+          to his world."</span
+        >
+      </div>
+      <div id="enemieInfo">
+        <img src="img/3_enemies_chicken/chicken_normal/1_walk/w-1.png" />
+        <span
+          >Beware of the clever little chickens! These cunning enemies roam
+          around trying to harm Pepe and prevent him from reaching Carlo, the
+          formidable boss. Stay alert and evade their plans to advance Pepe's
+          journey.</span
+        >
+      </div>
+
+      <div id="endbossInfo">
+        <span class="pd-top"
+          >Meet Carlo, the formidable final boss! This formidable enemy must be
+          hit four times to be defeated and rid the land of all chickens. Get
+          ready for this challenging showdown and help Pepe triumph in his
+          ultimate quest for freedom.
+        </span>
+        <img src="img/4_enemie_boss_chicken/1_walk/G-1.png" />
+      </div>
+      <div id="bottleInfo">
+        <img src="img/6_salsa_bottle/1_salsa_bottle_on_ground.png" />
+        <span
+          >Grab bottles to throw at the chickens! They help Pepe defeat them.
+          More bottles mean more chances to clear the chickens from the
+          desert.</span
+        >
+      </div>
+      <div id="coinInfo">
+        <img src="img/8_coin/coin_1.png" />
+        <span
+          >Collect coins for a big surprise! Once Pepe gathers them all, he
+          grows bigger and his health fully restores. Keep an eye out for these
+          shiny treasures!</span
+        >
+      </div>
+      <div id="statusInfo">
+        <img src="img/7_statusbars/statusbar example.png" />
+        <span
+          >Keep an eye on the status bars! They show Pepe's current health,
+          collected bottles, coins, and the endboss's life.</span
+        >
+      </div>
+      <img id="closeInfoMenu" src="img/Icons/clos menu.png" alt="" />
+    </div>
+  </body>
 </html>
