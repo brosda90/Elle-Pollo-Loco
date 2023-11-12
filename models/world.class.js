@@ -55,7 +55,7 @@ class World {
       this.checkBottleCollect();
       this.checkBottleCubeCollect();
       this.checkIfBottleHits();
-      this.checkBottleCubeCollect(); // Fügen Sie diese Zeile hinzu
+      this.checkBottleCubeCollect();
     }, 200);
   }
 
@@ -112,61 +112,54 @@ class World {
       this.throwableObject.push(bottle);
     }
   }
-
-  /**
-   * Checks if the character collides with an enemy from the top.
-   * @param {Character} character
-   * @param {Chicken} enemy
-   * @returns {boolean}
-   */
-  checkCollisionFromTop(character, enemy) {
-    let charBottom = character.y + character.height;
-    let enemyTop = enemy.y + 300;
-    let collisionOffset = 10; // Anpassbarer Offset
+  ////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////
+  isCharacterJumpingOnTop(character, enemy) {
+    let characterBottom = character.y + character.height;
+    let enemyTop = enemy.y;
+    let space = 100; // Anpassbar
+    let isAboveAndFalling =
+      characterBottom < enemyTop + space && character.speedY > 0;
 
     console.log(
-      "Charakter unten: ",
-      charBottom,
-      "Huhn oben: ",
+      "Charakter unten:",
+      characterBottom,
+      "Huhn oben:",
       enemyTop,
-      "Charakter speedY: ",
-      character.speedY,
-      "character Y ",
-      character.y
+      "Schwelle zwischen beiden:",
+      space,
+      "Charakter fällt:",
+      character.speedY > 0,
+      "isAboveAndFalling:",
+      isAboveAndFalling
     );
-
-    // Überprüfung, ob der Charakter sich auf das Huhn zu bewegt
-    let isMovingDownward = character.speedY > 0;
-    let isAboveChicken = charBottom - collisionOffset < enemyTop;
-
-    return isMovingDownward && isAboveChicken;
+    return character.isJumping;
   }
-  /**
-   * Checks and handles collisions between the character and enemies.
-   */
+
   checkCollisions() {
     this.level.enemies.forEach((enemy) => {
-      if (
-        this.character.isColliding(enemy) &&
-        !(enemy instanceof Chicken && enemy.hit)
-      ) {
+      if (this.character.isColliding(enemy) && !enemy.hit) {
+        console.log("Kollision mit Feind:", enemy);
+
         if (enemy instanceof Chicken) {
-          if (this.checkCollisionFromTop(this.character, enemy)) {
-            console.log("Chicken stomped from top!");
-            enemy.hitByBottle();
+          if (this.isCharacterJumpingOnTop(this.character, enemy)) {
+            console.log("Charakter springt von oben auf das Huhn");
+            enemy.hitByJump();
           } else {
-            console.log("character hit!");
+            console.log("Charakter kollidiert seitlich mit dem Huhn");
             this.character.hit();
             this.statusBar.setPercentage(this.character.energy);
           }
         } else if (enemy instanceof Endboss) {
+          console.log("Kollision mit Endboss");
           this.character.hit();
           this.statusBar.setPercentage(this.character.energy);
         }
       }
     });
   }
-
+  /////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////
   /**
    * Checks if a thrown bottle hits an enemy.
    * @returns {boolean}
@@ -239,7 +232,7 @@ class World {
         this.character.isColliding(bottleCube) &&
         this.character.bottleCount < 100
       ) {
-        this.character.countBottles(true); // Übergeben Sie true, um zu signalisieren, dass es sich um einen BottleCube handelt
+        this.character.countBottles(true);
         this.playSound("audio/collect bottle.mp3");
         this.statusBarBottles.setPercentage(this.character.bottleCount);
 
@@ -282,7 +275,6 @@ class World {
     this.drawStatusBars();
     this.handleChickenSound();
 
-    // Zeichnen Sie das Game Over-Bild, wenn die drawGameOver-Methode definiert ist
     if (this.drawGameOver) {
       this.drawGameOver(this.ctx);
     }

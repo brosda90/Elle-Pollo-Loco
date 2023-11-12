@@ -18,7 +18,7 @@ class MovableObject extends DrawableObject {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
       } else {
-        this.speedY = 0; // Setzen Sie speedY zurück, wenn der Charakter den Boden berührt
+        this.speedY = 0;
       }
       console.log(this.speedY);
     }, 1000 / 25);
@@ -110,7 +110,7 @@ class MovableObject extends DrawableObject {
   countBottles(isBottleCube = false) {
     const amount = isBottleCube ? 40 : 20;
     if (this.bottleCount + amount > 100) {
-      this.bottleCount = 100; // Setzt die Flaschenanzahl auf 100, wenn das Limit überschritten würde
+      this.bottleCount = 100;
     } else {
       this.bottleCount += amount;
     }

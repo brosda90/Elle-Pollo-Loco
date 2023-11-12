@@ -146,9 +146,9 @@ class Endboss extends MovableObject {
     if (!sound.ended && !sound.playing) {
       sound.volume = volume;
       sound.play();
-      sound.playing = true; // Eigene Eigenschaft, um den Spielstatus zu verfolgen
+      sound.playing = true;
 
-      // Event Listener hinzufügen, um den Status zurückzusetzen, wenn der Sound zu Ende ist
+      //Status zurückzusetzen, wenn der Sound zu Ende ist
       sound.onended = () => {
         sound.playing = false;
       };

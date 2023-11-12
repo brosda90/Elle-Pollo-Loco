@@ -6,6 +6,7 @@ class Character extends MovableObject {
   hasScaled = false;
   statusBar = null;
   gameOverSoundPlayed = false;
+  isJumping = false;
 
   game_over_sound = new Audio("audio/game over.mp3");
   hurt_sound = new Audio("audio/Character Hurt.mp3");
@@ -178,17 +179,39 @@ class Character extends MovableObject {
     this.idleCounter = 0;
   }
 
+  /////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////
   /**
    * Performs the jump action for the character.
    */
   performJump() {
     if (this.speedY === 0) {
-      // Überprüft, ob speedY gleich 0 ist
       this.jump();
-      this.jumping_sound.volume = 0.3;
-      this.jumping_sound.play();
+      this.isJumping = true;
+      setTimeout(() => {
+        this.isJumping = false;
+      }, 1000); // Setzen Sie isJumping nach 1 Sekunde zurück
     }
   }
+
+  smallJump() {
+    this.speedY = +30;
+    this.speedX = +30; // Negativer Wert für einen kleinen Sprung nach oben
+    // Passen Sie den Wert an, um die Sprunghöhe zu steuern
+  }
+
+  checkLanding() {
+    if (!this.isAboveGround()) {
+      this.isJumping = false;
+    }
+  }
+
+  land() {
+    this.isJumping = false;
+  }
+
+  /////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////
 
   /**
    * Checks if the character is falling.

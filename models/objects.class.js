@@ -22,7 +22,7 @@ class BottleCube extends Collectible {
   ];
 
   currentImageIndex = 0;
-  animationSpeed = 200; // Zeit in Millisekunden
+  animationSpeed = 200;
   lastChange = Date.now();
 
   constructor(x, y) {

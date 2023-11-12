@@ -28,6 +28,33 @@ class Chicken extends MovableObject {
     this.animate();
   }
 
+  /////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////
+  /**
+   * Logic when the chicken is hit by a jump.
+   */
+  hitByJump() {
+    this.speed = 0;
+    this.hit = true;
+    this.playAnimation(this.IMAGES_DEAD);
+    this.chicken_dead.play();
+    this.chicken_dead.volume = 0.4;
+    this.world.character.smallJump();
+
+    setTimeout(() => {
+      let enemiesArray = this.world.level.enemies;
+      let index = enemiesArray.indexOf(this);
+
+      if (index !== -1) {
+        enemiesArray.splice(index, 1);
+        this.hit = false;
+      }
+    }, 2000);
+  }
+
+  /////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////
+
   /**
    * logic when the chicken is hit by a bottle.
    */

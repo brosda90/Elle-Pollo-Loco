@@ -7,10 +7,10 @@
  */
 function createBackgroundObjects(imageSets, count) {
   const objects = [];
-  const imageWidth = 719; // Nehmen wir an, dass dies die Breite Ihres Hintergrundbildes ist
+  const imageWidth = 719;
 
   // Startposition nach links erweitern
-  const startPosition = -imageWidth; // Beginnen Sie ein Bild vor dem Startpunkt
+  const startPosition = -imageWidth; // Bild vor dem Startpunkt
 
   for (let i = 0; i < count; i++) {
     const position = startPosition + imageWidth * i;

@@ -52,7 +52,7 @@ function toggleControlManual() {
   if (controlManual.style.display === "none") {
     controlManual.style.display = "block";
     animateControlManual(controlManual, 0, 300);
-    gameInfo.style.display = "none"; // Schließe das Game Info Menü, falls geöffnet
+    gameInfo.style.display = "none";
   } else {
     controlManual.style.display = "none";
     gameInfo.style.display = "flex";

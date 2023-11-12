@@ -1,18 +1,12 @@
-html {
-  box-sizing: border-box;
-}
-
 body {
-  display: flex;
   width: 100%;
-  height: 100%;
+  height: 100;
+  display: flex;
   margin: 0;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   background-image: url(../img/5_background/desert.png);
-  background-size: cover;
-  background-repeat: no-repeat;
   font-family: "zabras", Arial, Helvetica, sans-serif;
 }
 #game-container {
@@ -126,9 +120,8 @@ canvas {
 #muteButton {
   position: relative;
   width: 48px;
-  top: -149px;
+  top: -153px;
   right: -324px;
-  padding: 5px 10px;
   cursor: pointer;
   transition: transform 0.1s; /* Animation für den Übergang */
 }
@@ -338,6 +331,50 @@ canvas {
 }
 
 /* smartphone ---------*/
+@media only screen and (max-width: 725px) {
+  #startGameButton {
+    position: relative;
+    top: 0px;
+  }
+
+  #muteButton {
+    position: relative;
+    width: 48px;
+    top: -66px;
+    right: -104px;
+    cursor: pointer;
+    transition: transform 0.1s;
+  }
+
+  .controls {
+    position: relative;
+    top: -114px;
+    right: -161px;
+  }
+
+  .game-info {
+    position: relative;
+    top: -165px;
+    right: 104px;
+  }
+
+  .manual {
+    letter-spacing: 3px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: white;
+    gap: 20px;
+    padding-top: 22px;
+    padding-left: 17px;
+    z-index: 100;
+  }
+
+  .manual img {
+    width: 32px;
+  }
+}
+
 @media only screen and (max-width: 720px) {
   canvas {
     width: calc(100vw - 10px);
@@ -348,9 +385,24 @@ canvas {
     top: 0;
   }
   #game-container {
-    width: calc(
-      100vw - 10px
-    ); /* 100% der Viewport-Breite, abzüglich der horizontalen Margins */
+    width: calc(100vw - 10px);
+  }
+  .startScreen {
+    width: calc(100vw - 10px);
+    height: auto;
+  }
+
+  #control-manual {
+    width: 285px;
+    height: 232px;
+    position: relative;
+    background-color: #333333b3;
+    border-radius: 15px;
+    top: -538px;
+    z-index: 100;
+  }
+  #open-game-info {
+    display: none !important;
   }
 }
 
@@ -365,8 +417,10 @@ canvas {
     top: 0;
   }
   #game-container {
-    height: calc(
-      100vh - 5px
-    ); /* 100% der Viewport-Höhe, abzüglich der oberen Margin */
+    height: calc(100vh - 5px);
+    .startScreen {
+      height: calc(100vh - 10px);
+      width: auto;
+    }
   }
 }
