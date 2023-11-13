@@ -112,54 +112,32 @@ class World {
       this.throwableObject.push(bottle);
     }
   }
-  ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  isCharacterJumpingOnTop(character, enemy) {
-    let characterBottom = character.y + character.height;
-    let enemyTop = enemy.y;
-    let space = 100; // Anpassbar
-    let isAboveAndFalling =
-      characterBottom < enemyTop + space && character.speedY > 0;
 
-    console.log(
-      "Charakter unten:",
-      characterBottom,
-      "Huhn oben:",
-      enemyTop,
-      "Schwelle zwischen beiden:",
-      space,
-      "Charakter fällt:",
-      character.speedY > 0,
-      "isAboveAndFalling:",
-      isAboveAndFalling
-    );
-    return character.isJumping;
-  }
-
+  /**
+   * Checks and handles collisions between the character and the chicken / Endboss.
+   */
   checkCollisions() {
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy) && !enemy.hit) {
-        console.log("Kollision mit Feind:", enemy);
-
         if (enemy instanceof Chicken) {
-          if (this.isCharacterJumpingOnTop(this.character, enemy)) {
-            console.log("Charakter springt von oben auf das Huhn");
+          console.log("Kollision mit Huhn erkannt");
+          console.log("Charakter isJumping:", this.character.isJumping);
+
+          if (this.character.isJumping) {
             enemy.hitByJump();
+            this.character.jump();
           } else {
-            console.log("Charakter kollidiert seitlich mit dem Huhn");
             this.character.hit();
             this.statusBar.setPercentage(this.character.energy);
           }
         } else if (enemy instanceof Endboss) {
-          console.log("Kollision mit Endboss");
           this.character.hit();
           this.statusBar.setPercentage(this.character.energy);
         }
       }
     });
   }
-  /////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////
+
   /**
    * Checks if a thrown bottle hits an enemy.
    * @returns {boolean}
@@ -274,7 +252,7 @@ class World {
     this.drawWorld();
     this.drawStatusBars();
     this.handleChickenSound();
-
+    console.log("Character Y-Position: ", this.character.y);
     if (this.drawGameOver) {
       this.drawGameOver(this.ctx);
     }
@@ -312,11 +290,12 @@ class World {
    * Draws the characters and throwable objects.
    */
   drawCharactersAndObjects() {
+    this.addObjectsToMap(this.level.bottle);
+    this.addObjectsToMap(this.level.BottleCube);
     this.addToMap(this.character);
     this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.level.coin);
-    this.addObjectsToMap(this.level.bottle);
-    this.addObjectsToMap(this.level.BottleCube);
+
     this.addObjectsToMap(this.throwableObject);
   }
 

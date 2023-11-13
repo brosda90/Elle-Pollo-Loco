@@ -124,14 +124,7 @@ class DrawableObject {
       this instanceof ThrowableObject
     ) {
       ctx.beginPath();
-      ctx.lineWidth = "2";
-      ctx.strokeStyle = "red";
-      ctx.rect(
-        this.x + this.frameOffset.x,
-        this.y + this.frameOffset.y,
-        this.width + this.frameOffset.width,
-        this.height + this.frameOffset.height
-      );
+
       ctx.stroke();
     }
   }

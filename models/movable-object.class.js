@@ -8,6 +8,7 @@ class MovableObject extends DrawableObject {
   coinCount = 0;
   bottleCount = 0;
   hitCount = 0;
+  isJumping = false;
 
   /**
    * Applies gravity to the object, causing it to fall if it's above the ground.
@@ -19,23 +20,22 @@ class MovableObject extends DrawableObject {
         this.speedY -= this.acceleration;
       } else {
         this.speedY = 0;
+        this.isJumping = false;
       }
-      console.log(this.speedY);
     }, 1000 / 25);
   }
   /**
    * Determines if the object is above the ground.
-   * @returns {boolean} True / false otherwise.
+   * @returns {boolean}
    */
+
   isAboveGround() {
     if (this instanceof ThrowableObject) {
       return true;
+    } else if (this.hasScaled) {
+      return this.y < this.groundLevel;
     } else {
-      if (this.hasScaled) {
-        return this.y < this.baseY - 15;
-      } else {
-        return this.y < 150;
-      }
+      return this.y < 150;
     }
   }
 
@@ -152,6 +152,7 @@ class MovableObject extends DrawableObject {
    */
   jump() {
     this.speedY = 30;
+    this.isJumping = true;
   }
 
   /**

@@ -91,7 +91,7 @@ class Endboss extends MovableObject {
       this.speedX = 0;
       setTimeout(() => {
         this.wasHurtBefore = true;
-        this.speedX = 5;
+        this.speedX = 15;
       }, this.IMAGES_ALERT.length * 160);
     }
   }
@@ -102,7 +102,7 @@ class Endboss extends MovableObject {
   hurt() {
     this.hurting = true;
     if (!this.wasHurtBefore) {
-      this.speedX = -5;
+      this.speedX = -25;
     }
     setTimeout(() => (this.hurting = false), 1000);
   }

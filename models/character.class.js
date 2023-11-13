@@ -1,12 +1,12 @@
 class Character extends MovableObject {
   height = 280;
-  y = 80;
+  y = 150;
+
   speed = 5;
   idleCounter = 0;
   hasScaled = false;
   statusBar = null;
   gameOverSoundPlayed = false;
-  isJumping = false;
 
   game_over_sound = new Audio("audio/game over.mp3");
   hurt_sound = new Audio("audio/Character Hurt.mp3");
@@ -57,7 +57,7 @@ class Character extends MovableObject {
    */
   constructor() {
     super().loadImage("img/2_character_pepe/2_walk/W-21.png");
-    this.frameOffset = { x: 5, y: 95, width: -10, height: -100 };
+    this.frameOffset = { x: 5, y: 60, width: -10, height: -40 };
     this.loadImages(this.IMAGES_IDLE);
     this.loadImages(this.IMAGES_LONG_IDLE);
     this.loadImages(this.IMAGES_WALKING);
@@ -65,7 +65,6 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_DEAD);
     this.loadImages(this.IMAGES_HURT);
 
-    this.baseY = this.y;
     this.applyGravity();
     this.animate();
   }
@@ -90,19 +89,26 @@ class Character extends MovableObject {
    * @param {number} factor -scaling factor.
    * @param {number} y - correct y-coordinate.
    */
-  scaleSize(factor, y) {
+  scaleSize(factor) {
     if (!this.hasScaled) {
-      let deltaHeight = this.height * factor - this.height;
-      this.y -= deltaHeight;
       this.height *= factor;
       this.width *= factor;
+      this.groundLevel = 70; // Setze eine neue Bodenhöhe
       this.hasScaled = true;
 
-      // Update the statusBar percentage to 100
       if (this.statusBar) {
         this.statusBar.setPercentage(100);
       }
     }
+  }
+
+  jump() {
+    if (this.hasScaled) {
+      this.y = 80; // Neue Y-Position, wenn isJumping und hasScaled true sind
+    }
+    this.jumping_sound.play();
+    this.jumping_sound.volume = 0.2;
+    super.jump(); // Ruf die ursprüngliche jump-Methode auf
   }
 
   /**
@@ -179,48 +185,6 @@ class Character extends MovableObject {
     this.idleCounter = 0;
   }
 
-  /////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////
-  /**
-   * Performs the jump action for the character.
-   */
-  performJump() {
-    if (this.speedY === 0) {
-      this.jump();
-      this.isJumping = true;
-      setTimeout(() => {
-        this.isJumping = false;
-      }, 1000); // Setzen Sie isJumping nach 1 Sekunde zurück
-    }
-  }
-
-  smallJump() {
-    this.speedY = +30;
-    this.speedX = +30; // Negativer Wert für einen kleinen Sprung nach oben
-    // Passen Sie den Wert an, um die Sprunghöhe zu steuern
-  }
-
-  checkLanding() {
-    if (!this.isAboveGround()) {
-      this.isJumping = false;
-    }
-  }
-
-  land() {
-    this.isJumping = false;
-  }
-
-  /////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////
-
-  /**
-   * Checks if the character is falling.
-   * @returns {boolean} - Returns true if the character is falling, otherwise false.
-   */
-  isFalling() {
-    return this.speedY > 0;
-  }
-
   /**
    * Animates character's movement.
    */
@@ -238,7 +202,7 @@ class Character extends MovableObject {
       }
 
       if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-        this.performJump();
+        this.jump();
       }
 
       this.world.camera_x = -this.x + 100;
@@ -310,7 +274,7 @@ class Character extends MovableObject {
   animateIdle() {
     setInterval(() => {
       if (this.isIdle()) {
-        if (this.idleCounter >= 3000 / 200) {
+        if (this.idleCounter >= 6000 / 200) {
           this.playAnimation(this.IMAGES_LONG_IDLE);
           this.snoring_sound.volume = 0.2;
           this.snoring_sound.play();

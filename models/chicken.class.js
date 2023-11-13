@@ -19,7 +19,7 @@ class Chicken extends MovableObject {
    */
   constructor() {
     super().loadImage("img/3_enemies_chicken/chicken_normal/1_walk/w-1.png");
-    this.frameOffset = { x: 5, y: -30, width: -10, height: 20 };
+    this.frameOffset = { x: 5, y: -50, width: -30, height: 30 };
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_DEAD);
     this.x = 1000 + Math.random() * 800;
@@ -28,8 +28,6 @@ class Chicken extends MovableObject {
     this.animate();
   }
 
-  /////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////
   /**
    * Logic when the chicken is hit by a jump.
    */
@@ -39,7 +37,6 @@ class Chicken extends MovableObject {
     this.playAnimation(this.IMAGES_DEAD);
     this.chicken_dead.play();
     this.chicken_dead.volume = 0.4;
-    this.world.character.smallJump();
 
     setTimeout(() => {
       let enemiesArray = this.world.level.enemies;
@@ -51,9 +48,6 @@ class Chicken extends MovableObject {
       }
     }, 2000);
   }
-
-  /////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////
 
   /**
    * logic when the chicken is hit by a bottle.

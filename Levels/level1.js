@@ -1,9 +1,9 @@
 /**
  * Creates array of background objects.
  *
- * @param {string[][]} imageSets - Array of image sets.
- * @param {number} count - Number of times the image sets repeated.
- * @returns {BackgroundObject[]} Array of background objects.
+ * @param {string}
+ * @param {number}
+ * @returns {BackgroundObject[]}
  */
 function createBackgroundObjects(imageSets, count) {
   const objects = [];
@@ -63,10 +63,10 @@ function initLevel1() {
       new Bottle(2000, 350),
     ],
     [
-      new BottleCube(600, 85),
-      new BottleCube(1200, 85),
-      new BottleCube(2000, 85),
-      new BottleCube(2200, 85),
+      new BottleCube(600, 60),
+      new BottleCube(1200, 60),
+      new BottleCube(2000, 60),
+      new BottleCube(2200, 60),
     ]
   );
 }

@@ -29,7 +29,7 @@ class BottleCube extends Collectible {
     super(x, y, ["img/6_salsa_bottle/salsa_bottle cube 1.png"]);
     this.height = 80;
     this.width = 80;
-    this.frameOffset = { x: 15, y: -50, width: -30, height: 50 };
+    this.frameOffset = { x: 15, y: -60, width: -30, height: 70 };
     this.loadImages(this.IMAGES);
   }
 

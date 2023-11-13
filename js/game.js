@@ -76,6 +76,22 @@ function animateControlManual(element, startWidth, maxWidth) {
 }
 
 /**
+ * Shows the controls in Game.
+ */
+function setupGameControls() {
+  const controlsInGame = document.getElementById("controlsInGame");
+  const closeGame = document.getElementById("closeGame");
+  const controlManualInGame = document.getElementById("control-manual-in-game");
+
+  controlsInGame.addEventListener("click", () => {
+    controlManualInGame.style.display =
+      controlManualInGame.style.display === "none" ? "block" : "none";
+  });
+
+  closeGame.addEventListener("click", () => location.reload());
+}
+
+/**
  * Shows the control manual spans.
  */
 function showControlManualSpans() {
@@ -155,41 +171,45 @@ function init() {
  * Starts the game, hiding the start screen and displaying the canvas.
  */
 function startGame() {
-  const touchControls = document.getElementById("touch-controls");
-  const startScreen = document.getElementById("startScreen");
-  const controlManual = document.getElementById("open-controller-manual");
-  const gameInfo = document.getElementById("open-game-info");
-  const startGameButton = document.getElementById("startGameButton");
-  const description = document.getElementById("description");
-  const canvas = document.getElementById("canvas");
+  const elementsToHide = [
+    "open-controller-manual",
+    "open-game-info",
+    "startScreen",
+    "startGameButton",
+    "description",
+    "controlsInGame",
+    "closeGame",
+    "gameInfo",
+  ];
 
-  if (controlManual) {
-    controlManual.style.display = "none";
-  }
+  const elementsToShow = {
+    canvas: "block",
+    "touch-controls": "flex",
+    controlsInGame: "block",
+    closeGame: "block",
+  };
 
-  if (gameInfo) {
-    gameInfo.style.display = "none";
-  }
-  if (startScreen) {
-    startScreen.style.display = "none";
-  }
-  if (startGameButton) {
-    startGameButton.style.display = "none";
-  }
-  if (description) {
-    description.style.display = "none";
-  }
-  if (canvas) {
-    canvas.style.display = "block";
-  }
-  if (touchControls) {
-    touchControls.style.display = "flex";
+  elementsToHide.forEach((id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.style.display = "none";
+    }
+  });
+
+  for (const [id, displayValue] of Object.entries(elementsToShow)) {
+    const element = document.getElementById(id);
+    if (element) {
+      element.style.display = displayValue;
+    }
   }
 
   initLevel1();
   init();
 }
 
+/**
+ * Registers event listeners when the document is fully loaded.
+ */
 document.addEventListener("DOMContentLoaded", () => {
   document
     .getElementById("open-controller-manual")
@@ -212,8 +232,10 @@ document.addEventListener("DOMContentLoaded", () => {
   setupStartGameButtonListener(
     startGameButton,
     introSound,
+
     muteButton,
-    touchControls
+    touchControls,
+    (introSound.volume = 0.1)
   );
   setupRetryGameButtonListener(retryGameButton, touchControls);
   setupMuteButtonListener(muteButton, introSound);
@@ -221,8 +243,12 @@ document.addEventListener("DOMContentLoaded", () => {
   hideControlManualSpans();
   hideGameInfoContent();
   setupTouchControls();
+  setupGameControls();
 });
 
+/**
+ * Sets up touch controls for the game.
+ */
 function setupTouchControls() {
   addTouchEvent("left-btn", 37);
   addTouchEvent("right-btn", 39);
@@ -230,6 +256,11 @@ function setupTouchControls() {
   addTouchEvent("throw-btn", 18);
 }
 
+/**
+ * Adds a touch event listener to a button.
+ * @param {string}
+ * @param {number}
+ */
 function addTouchEvent(buttonId, keyCode) {
   const button = document.getElementById(buttonId);
   button.addEventListener("touchstart", () => handleTouchEvent(keyCode, true), {
