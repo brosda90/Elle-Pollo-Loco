@@ -447,3 +447,32 @@ canvas {
     }
   }
 }
+
+@media only screen and (max-height: 460px) {
+  canvas {
+    height: 100vh;
+    width: 100vw;
+  }
+
+  #startGameButton {
+    top: -356px;
+  }
+
+  #muteButton {
+    top: -144px;
+    right: -280px;
+  }
+
+  .controls {
+    top: -193px;
+    right: -224px;
+  }
+
+  #control-manual {
+    top: -450px;
+  }
+
+  #game-container {
+    height: 100vh;
+  }
+}
